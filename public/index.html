@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <title>PTouch Editor Printer</title>
+    <script src="/static/JsBarcode.all.min.js"></script>
+    <script src="/static/jszip.min.js">
+    </script>
+</head>
+
+<body style="background: lightblue">
+    <h1>PTouch Editor Printer</h1>
+    <form id="printForm">
+        <input type="file" name="file" accept=".lbx,.zip" id="file" />
+        <input type="submit" value="Print" />
+    </form>
+    <canvas id="output"></canvas>
+    <div id="elements"></div>
+    <script src="/static/renderer.js" type="text/javascript"></script>
+    <script>
+        const canvas = document.getElementById('output');
+        const renderer = new PTouchRenderer(canvas);
+        const outputElements = document.getElementById("elements");
+
+        /**
+         * update the value of a field and redraw the lable
+         */
+        function updateField(name, elem) {
+            const fields = renderer.getFields();
+            fields[name] = elem.value;
+            renderer.setFieldOverwrites(fields);
+            renderer.render().catch(console.error);
+        }
+
+        async function handleFileSelect(evt) {
+            const files = evt.target.files; // FileList object
+
+            // clear the output field list
+            while (outputElements.firstChild)
+                outputElements.removeChild(outputElements.firstChild);
+
+            // open the file and render
+            await renderer.open(files[0]).catch(console.error);
+            await renderer.render().catch(console.error);
+
+            // display all fields in the lable
+            const fields = renderer.getFields();
+            for (const name in fields) {
+                const ele = document.createElement("div");
+                ele.innerHTML = `<span style="width: 100px; display: inline-block">${name}:</span><input type="text" value="${fields[name]}" onchange="updateField('${name}', this)" />`;
+                outputElements.append(ele);
+            }
+        }
+        document.getElementById('file').addEventListener('change', handleFileSelect, false);
+
+        /**
+         * Handle print form submit
+         */
+        async function handlePrintSubmit(evt) {
+            evt.preventDefault();
+            const image = canvas.toDataURL("image/png").split(",", 2)[1];
+
+            const res = await fetch("/api/print", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    image,
+                    label: renderer.getPaperName()
+                })
+            }).then(r => r.json())
+                .catch(err => ({
+                    success: false,
+                    error: err.message || err
+                }))
+            console.log(res);
+        }
+        document.getElementById('printForm').addEventListener('submit', handlePrintSubmit, false);
+    </script>
+</body>
+
+</html>
