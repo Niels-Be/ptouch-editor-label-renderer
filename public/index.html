@@ -3,8 +3,8 @@
 <head>
     <title>PTouch Editor Printer</title>
     <script src="/static/JsBarcode.all.min.js"></script>
-    <script src="/static/jszip.min.js">
-    </script>
+    <script src="/static/jszip.min.js"></script>
+    <script src="/static/renderer.js"></script>
 </head>
 
 <body style="background: lightblue">
@@ -15,7 +15,6 @@
     </form>
     <canvas id="output"></canvas>
     <div id="elements"></div>
-    <script src="/static/renderer.js" type="text/javascript"></script>
     <script>
         const canvas = document.getElementById('output');
         const renderer = new PTouchRenderer(canvas);
@@ -46,7 +45,7 @@
             const fields = renderer.getFields();
             for (const name in fields) {
                 const ele = document.createElement("div");
-                ele.innerHTML = `<span style="width: 100px; display: inline-block">${name}:</span><input type="text" value="${fields[name]}" onchange="updateField('${name}', this)" />`;
+                ele.innerHTML = `<span style="min-width: 100px; display: inline-block">${name}:</span><input type="text" value="${fields[name]}" onchange="updateField('${name}', this)" />`;
                 outputElements.append(ele);
             }
         }

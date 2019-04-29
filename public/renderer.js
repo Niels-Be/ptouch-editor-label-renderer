@@ -1,4 +1,3 @@
-const DRAW_DEBUG_FRAMES = true;
 const TARGET_DPI = 300;
 const SCALE = TARGET_DPI / 96; // 96 is fixed canvas DPI
 const PX_TO_MM = 0.26465566306203764; // @ 96 DPI
@@ -399,7 +398,8 @@ class PTouchRenderer {
     }
 
 };
-
+//export { PTouchRenderer };
+//export default PTouchRenderer;
 
 
 
@@ -409,6 +409,7 @@ class PTouchRenderer {
 
 /**
  * 
+ * @private
  * @param {Element} obj 
  */
 function getObjectData(obj) {
@@ -419,6 +420,7 @@ function getObjectData(obj) {
 
 /**
  * 
+ * @private
  * @param {Element} obj 
  */
 function getObjectStyle(obj) {
@@ -434,6 +436,7 @@ function getObjectStyle(obj) {
 
 /**
  * 
+ * @private
  * @param {Element} obj 
  */
 function getFontInfo(obj) {
@@ -452,6 +455,7 @@ function getFontInfo(obj) {
 
 /**
  * 
+ * @private
  * @param {string} str 
  */
 function sizeToPx(str, dpi) {
@@ -468,6 +472,7 @@ function sizeToPx(str, dpi) {
  * Draws a rounded rectangle using the current state of the canvas.
  * If you omit the last three params, it will draw a rectangle
  * outline with a 5 pixel border radius
+ * @private
  * @param {CanvasRenderingContext2D} ctx
  * @param {Number} x The top left x coordinate
  * @param {Number} y The top left y coordinate
@@ -520,6 +525,7 @@ function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
 
 /**
  * 
+ * @private
  * @param {string} num 
  */
 function EAN13checksum(num) {
@@ -537,6 +543,7 @@ function EAN13checksum(num) {
 
 /**
  * 
+ * @private
  * @param {CanvasRenderingContext2D} ctx 
  * @param {string} text 
  * @param {string} fontfamily 
