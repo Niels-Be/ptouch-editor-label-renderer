@@ -12,7 +12,7 @@ You can embed the render into your own project. e.g. to automatically print labe
 
 Supported features:
 - Text (only global styling)
-- Barcode (only EAN13)
+- Barcodes (only EAN13)
 - Tables
 - Images (only binary with transparency)
 - Rectangles (only symmetrically rounded corners)
@@ -53,6 +53,8 @@ async function handleFileSelect(evt) {
 }
 document.getElementById('file').addEventListener('change', handleFileSelect, false);
 ```
+
+See `index.html` for a complete example or [API.md](API.md) for docs.
 
 
 ## Contribution
