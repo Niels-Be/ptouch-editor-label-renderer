@@ -59,7 +59,7 @@ See `index.html` for a complete example or [API.md](API.md) for docs.
 
 ## Contribution
 
-If a feature is missing feel free to open a Issue or a PR, I am happy to include it.
+If a feature is missing feel free to open an issue or a PR, I am happy to include it.
 
 
 ## Thanks
