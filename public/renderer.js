@@ -332,14 +332,22 @@ class PTouchRenderer {
         let data = getObjectData(obj);
         const barcodeStyle = obj.getElementsByTagName("barcode:barcodeStyle")[0];
 
+        const barcodeFormat = barcodeStyle.getAttribute("protocol");
+
         //TODO: support barcode styling like flat or noText
         //TODO: support other barcode formats
-        data = data.padStart(12, "0");
-        data = data + EAN13checksum(data);
+        if(barcodeFormat === "EAN13") {
+            data = data.padStart(12, "0");
+            data = data + EANChecksum(data);
+        }
+        if(barcodeFormat === "EAN8") {
+            data = data.padStart(7, "0");
+            data = data + EANChecksum(data);
+        }
 
         const tmpCanvas = document.createElement("canvas");
         JsBarcode(tmpCanvas, data, {
-            format: "EAN13",
+            format: barcodeFormat,
             width: sizeToPx(barcodeStyle.getAttribute("barWidth")) * SCALE,
             height: style.height * SCALE - 11.0 * SCALE, // account for text size
             margin: 0,
@@ -542,9 +550,8 @@ function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
  * @private
  * @param {string} num 
  */
-function EAN13checksum(num) {
+function EANChecksum(num) {
     const res = num
-        .substr(0, 12)
         .split('')
         .map((n) => +n)
         .reduce((sum, a, idx) => (
