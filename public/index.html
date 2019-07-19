@@ -12,6 +12,10 @@
     <form id="printForm">
         <input type="file" name="file" accept=".lbx,.zip" id="file" />
         <input type="submit" value="Print" />
+        <br />
+        Paper Type: 
+        has Red <input type="checkbox" name="isRedPaper" />
+        Format <input type="text" name="paperFormat" />
     </form>
     <canvas id="output"></canvas>
     <div id="elements"></div>
@@ -48,6 +52,9 @@
                 ele.innerHTML = `<span style="min-width: 100px; display: inline-block">${name}:</span><input type="text" value="${fields[name]}" onchange="updateField('${name}', this)" />`;
                 outputElements.append(ele);
             }
+
+            document.getElementsByName("isRedPaper")[0].checked = renderer.getPaper().printColorDisplay;
+            document.getElementsByName("paperFormat")[0].value = renderer.getPaperName();
         }
         document.getElementById('file').addEventListener('change', handleFileSelect, false);
 
@@ -65,7 +72,8 @@
                 },
                 body: JSON.stringify({
                     image,
-                    label: renderer.getPaperName()
+                    label: document.getElementsByName("paperFormat")[0].value,
+                    red: document.getElementsByName("isRedPaper")[0].checked,
                 })
             }).then(r => r.json())
                 .catch(err => ({

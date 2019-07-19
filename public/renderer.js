@@ -111,6 +111,7 @@ class PTouchRenderer {
             marginBottom: sizeToPx(paperObj.getAttribute("marginBottom")),
             orientation: paperObj.getAttribute("orientation"),
             autoLength: paperObj.getAttribute("autoLength") === "true",
+            printColorDisplay: paperObj.getAttribute("printColorDisplay") === "true",
         };
     }
 
