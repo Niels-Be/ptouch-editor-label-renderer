@@ -17,10 +17,23 @@ class PTouchRenderer {
 
     /**
      * 
-     * @param {HTMLCanvasElement} canvas 
+     * @param {HTMLCanvasElement|string} canvas canvas element or id of an canvas element
      */
     constructor(canvas) {
+        if(typeof canvas === "string") {
+            canvas = document.getElementById(canvas);
+        }
+        if(!canvas) {
+            throw new Error("Canvas not found");
+        }
+
+        /**
+         * @type {HTMLCanvasElement}
+         */
         this.canvas = canvas;
+        /**
+         * @type {CanvasRenderingContext2D}
+         */
         this.ctx = canvas.getContext("2d");
     }
 
