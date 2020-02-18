@@ -350,9 +350,11 @@ class PTouchRenderer {
             format: barcodeFormat,
             width: sizeToPx(barcodeStyle.getAttribute("barWidth")) * SCALE,
             height: style.height * SCALE - 11.0 * SCALE, // account for text size
+            textMargin: 0.1,
             margin: 0,
             marginBottom: 2,
-            fontSize: 10 * SCALE, //TODO: is the fontsize configurable?
+            flat: barcodeStyle.getAttribute("sameLengthBar") === "true",
+            fontSize: 9 * SCALE, //TODO: is the fontsize configurable?
         });
         if (tmpCanvas.height - style.height * SCALE > 1) {
             console.log("warning: Barcode to large:", tmpCanvas.height / SCALE - style.height);
